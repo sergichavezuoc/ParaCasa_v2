@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>List of restaurants</title> 
+    <div th:insert="fragments/header"></div>
+</head>
+<body>
+    <div th:insert="fragments/navbar"></div>
+    <div class="container" style="margin-top: 80px;">
+    <h1 th:text="'List of restaurants'" />
+    <table class="table">
+    <thead>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tr th:each="restaurant: ${restaurants}">
+        <td th:text="${restaurant.id}" />
+        <td th:text="${restaurant.title}" />
+        <td th:text="${restaurant.description}" />
+       
+        <td><a th:href="@{'/api/restaurants/' + ${restaurant.id} + '/menus'}"><input class="btn btn-info" value="Show Menus" /></a></td>
+        <td><a th:href="@{'/api/restaurants/' + ${restaurant.id} + '/edit'}"><input class="btn btn-warning" type="submit" value="edit" /></a></td>
+        <td><form th:name="${restaurant.id}" th:action="@{'/api/restaurants/del/' + ${restaurant.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
+
+    </tr>
+    
+</table>
+<a th:href="@{'/api/restaurants/add'}"><input type="button" class="btn btn-primary" value="Add Restaurant" /></a>
+</div>
+</body>
+</html>

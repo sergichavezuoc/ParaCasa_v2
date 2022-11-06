@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>List of Menus</title> 
+    <div th:insert="fragments/header"></div>
+</head>
+<body>
+    <div th:insert="fragments/navbar"></div>
+    <div class="container" style="margin-top: 80px;">
+    <h1 th:text="'Listado de menus'" />
+    <table class="table">
+    <thead>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Restaurant</th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tr th:each="menu: ${menus}">
+        <td th:text="${menu.id}" />
+        <td th:text="${menu.title}" />
+        <td th:text="${menu.description}" />
+        <td th:text="${menu.restaurant}" />
+        <td><a th:href="@{'/api/menus/' + ${menu.id} + '/edit'}"><input class="btn btn-warning" type="submit" value="edit" /></a></td>
+        <td><form th:name="${menu.id}" th:action="@{'/api/menus/del/' + ${menu.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
+    </tr>
+</table>
+<a th:href="@{'/api/menus/add'}"><input type="button" class="btn btn-primary" value="Add Menu" /></a>
+</div>
+</body>
+</html>
