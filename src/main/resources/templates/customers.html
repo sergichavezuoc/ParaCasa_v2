@@ -21,12 +21,12 @@
         <td th:text="${customer.id}" />
         <td th:text="${customer.name}" />
         <td th:text="${customer.email}" />
-        <td><a th:href="@{'/api/customers/' + ${customer.id} + '/edit'}"><input class="btn btn-warning" type="submit" value="edit" /></a></td>
-        <td><form th:name="${customer.id}" th:action="@{'/api/customers/del/' + ${customer.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
-        <td><a th:href="@{'/api/orders/?customerid=' + ${customer.id}}"><input class="btn btn-info" value="View Orders"/></a></td>
+        <td><a th:href="@{'/paracasa/customers/' + ${customer.id} + '/edit'}"><input class="btn btn-warning" type="submit" value="edit" /></a></td>
+        <td><form th:name="${customer.id}" th:action="@{'/paracasa/customers/del/' + ${customer.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
+        <td><a th:href="@{'/paracasa/orders/?customerid=' + ${customer.id}}"><input class="btn btn-info" value="View Orders"/></a></td>
     </tr>
 </table>
-<a th:href="@{'/api/customers/add'}"><input type="button" class="btn btn-primary" value="Add Customer" /></a>
+<a th:href="@{'/paracasa/customers/add'}"><input type="button" class="btn btn-primary" value="Add Customer" /></a>
 </div>
 </body>
 </html>

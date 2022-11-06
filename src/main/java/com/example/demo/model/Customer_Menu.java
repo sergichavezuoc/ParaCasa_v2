@@ -3,14 +3,7 @@ package com.example.demo.model;
 
 import java.io.Serializable;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "customer_menu")

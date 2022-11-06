@@ -18,16 +18,16 @@
     <tr th:each="menuinorder: ${menusinorder}"> 
         <td th:text="${menuinorder.menu}" />
         <td th:text="${menuinorder.quantity}" />   
-        <td><form th:name="${menuinorder.id}" th:action="@{'/api/orderinmenu/del/' + ${menuinorder.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
+        <td><form th:name="${menuinorder.id}" th:action="@{'/paracasa/orderinmenu/del/' + ${menuinorder.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
     </table>  
   </form>
   <form action="#" 
-  th:action="@{/api/orders/}" 
+  th:action="@{/paracasa/orders/}" 
   method="post">
   <div class="form-group">
     <label for="menuid">Add extra menus</label>
     <select class="form-control" name="menuid" id="menuid" placeholder="Menu">
-        <option th:each="menu: ${menus}" th:value="${menu.id}" th:text="${menu.title}"></option>
+        <option th:each="menu: ${menus}" th:value="${menu.id}" th:text="${menu.name}"></option>
     </select>
 </div>
 <div class="form-group">

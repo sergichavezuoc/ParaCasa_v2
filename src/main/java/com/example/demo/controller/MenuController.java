@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.management.relation.RelationNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,11 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.model.Menu;
 import com.example.demo.model.Restaurant;
 import com.example.demo.repository.MenuRepository;
@@ -31,7 +25,7 @@ import com.example.demo.repository.RestaurantRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/paracasa")
 
 
 
@@ -43,14 +37,14 @@ public class MenuController {
   RestaurantRepository restaurantRepository;
 
   @GetMapping("/menus")
-  public String getAllTutorials(@RequestParam(required = false) String title, Model model) {
+  public String getAllMenus(@RequestParam(required = false) String title, Model model) {
     try {
       List<Menu> menus = new ArrayList<Menu>();
 
       if (title == null)
         menuRepository.findAll().forEach(menus::add);
       else
-        menuRepository.findByTitleContaining(title).forEach(menus::add);
+        menuRepository.findByNameContaining(title).forEach(menus::add);
 
       if (menus.isEmpty()) {
         return "menus";
@@ -62,14 +56,14 @@ public class MenuController {
     }
   }
   @GetMapping("/restaurants/{restaurantId}/menus")
-  public String getAllCommentsByTutorialId(@PathVariable(value = "restaurantId") Long restaurantId, Model model) {
+  public String getAllCommentsByMenuId(@PathVariable(value = "restaurantId") Long restaurantId, Model model) {
  
     List<Menu> menus = menuRepository.findByRestaurantId(restaurantId);
     model.addAttribute("menus", menus);
     return "menus";
   }
   @GetMapping("/menus/{id}")
-  public ResponseEntity<Menu> getTutorialById(@PathVariable("id") long id) {
+  public ResponseEntity<Menu> getMenuById(@PathVariable("id") long id) {
     Optional<Menu> menuData = menuRepository.findById(id);
 
     if (menuData.isPresent()) {
@@ -87,13 +81,13 @@ public class MenuController {
   }
 
   @PostMapping("/menus")
-  public String createMenu(@RequestParam String title, @RequestParam String description, @RequestParam long tutorialsid) {
+  public String createMenu(@RequestParam String name, @RequestParam String description, @RequestParam long restaurantsid) {
     System.out.println("identificador de menu");
 
-    Optional<Restaurant> menu = restaurantRepository.findById(tutorialsid);
+    Optional<Restaurant> menu = restaurantRepository.findById(restaurantsid);
     
     if (menu.isPresent()) {
-      Menu menuRequest = new Menu(title, description, false, menu.get());
+      Menu menuRequest = new Menu(name, description, menu.get());
       menuRepository.save(menuRequest);
       return "creado";
     } else {
@@ -117,14 +111,14 @@ public class MenuController {
   }
 
   @PutMapping("/menus/{id}")
-  public String updateTutorial(@PathVariable("id") long id, @RequestParam String title, @RequestParam String description, @RequestParam long restaurant) {
+  public String updateMenu(@PathVariable("id") long id, @RequestParam String name, @RequestParam String description, @RequestParam long restaurant) {
     Optional<Menu> menuData = menuRepository.findById(id);
 Optional<Restaurant> restaurantData =restaurantRepository.findById(restaurant);
     if (menuData.isPresent() && restaurantData.isPresent()) {
       Menu _menu = menuData.get();
-      _menu.setTitle(title);
+      _menu.setName(name);
       _menu.setDescription(description);
-      _menu.setTutorial(restaurantData.get());
+      _menu.setMenu(restaurantData.get());
       menuRepository.save(_menu);
       return "modificado";
     } else {
@@ -152,20 +146,6 @@ Optional<Restaurant> restaurantData =restaurantRepository.findById(restaurant);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-  }
-
-  @GetMapping("/menus/published")
-  public ResponseEntity<List<Menu>> findByPublished() {
-    try {
-      List<Menu> menus = menuRepository.findByPublished(true);
-
-      if (menus.isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-      }
-      return new ResponseEntity<>(menus, HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
   }
 
 }

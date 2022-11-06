@@ -17,8 +17,8 @@ public class Menu implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@Column(name = "title")
-	private String title;
+	@Column(name = "name")
+	private String name;
 
 	@Column(name = "description")
 	private String description;
@@ -34,10 +34,9 @@ public class Menu implements Serializable {
 	private Restaurant restaurant;
 	public Menu() {
 	}
-	public Menu(String title, String description, boolean published, Restaurant restaurant) {
-		this.title = title;
+	public Menu(String name, String description, Restaurant restaurant) {
+		this.name = name;
 		this.description = description;
-		this.published = published;
 		this.restaurant =restaurant;
 	}
 
@@ -45,14 +44,14 @@ public class Menu implements Serializable {
 		return id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public void setTutorial(Restaurant restaurant) {
+	public void setMenu(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
 
@@ -60,23 +59,16 @@ public class Menu implements Serializable {
 		return description;
 	}
 	public String getRestaurant() {
-		return restaurant.getTitle();
+		return restaurant.getName();
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public boolean isPublished() {
-		return published;
-	}
-
-	public void setPublished(boolean isPublished) {
-		this.published = isPublished;
-	}
 
 	@Override
 	public String toString() {
-		return "Menu [id=" + id + ", title=" + title + ", desc=" + description + ", restaurant=" + restaurant.getTitle() + "]";
+		return "Menu [id=" + id + ", name=" + name + ", desc=" + description + ", restaurant=" + restaurant.getName() + "]";
 	}
 }

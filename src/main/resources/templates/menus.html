@@ -19,14 +19,14 @@
     </thead>
     <tr th:each="menu: ${menus}">
         <td th:text="${menu.id}" />
-        <td th:text="${menu.title}" />
+        <td th:text="${menu.name}" />
         <td th:text="${menu.description}" />
         <td th:text="${menu.restaurant}" />
-        <td><a th:href="@{'/api/menus/' + ${menu.id} + '/edit'}"><input class="btn btn-warning" type="submit" value="edit" /></a></td>
-        <td><form th:name="${menu.id}" th:action="@{'/api/menus/del/' + ${menu.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
+        <td><a th:href="@{'/paracasa/menus/' + ${menu.id} + '/edit'}"><input class="btn btn-warning" type="submit" value="edit" /></a></td>
+        <td><form th:name="${menu.id}" th:action="@{'/paracasa/menus/del/' + ${menu.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
     </tr>
 </table>
-<a th:href="@{'/api/menus/add'}"><input type="button" class="btn btn-primary" value="Add Menu" /></a>
+<a th:href="@{'/paracasa/menus/add'}"><input type="button" class="btn btn-primary" value="Add Menu" /></a>
 </div>
 </body>
 </html>

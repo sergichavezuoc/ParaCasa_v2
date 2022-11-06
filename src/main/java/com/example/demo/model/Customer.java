@@ -3,14 +3,7 @@ package com.example.demo.model;
 
 import java.io.Serializable;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "customers")
 public class Customer implements Serializable {
@@ -69,8 +62,7 @@ public class Customer implements Serializable {
 
 	@Override
 	public String toString() {
-		//return "Menu [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
-		return "Customer";
+		return "Menu [name=" + name + ", surname=" + surname + ", email=" + email + "]";
 	}
 
 }

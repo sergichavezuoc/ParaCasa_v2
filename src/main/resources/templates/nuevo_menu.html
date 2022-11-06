@@ -9,24 +9,24 @@
     <div class="container" style="margin-top: 80px;">
     <h1 th:text="'Nuevo menu'" />
     <form action="#" 
-    th:action="@{/api/menus/}" 
+    th:action="@{/paracasa/menus/}" 
     method="post">
     <div class="form-group">
-        <label for="title">Name</label>
-        <input class="form-control" type="text" name="title" id="title" placeholder="Title">
+        <label for="name">Name</label>
+        <input class="form-control" type="text" name="name" id="name" placeholder="Name">
     </div>
     <div class="form-group">
         <label for="description">Description</label>
         <input class="form-control" type="text" name="description" id="description" placeholder="Description">
     </div>
     <div class="form-group">
-        <label for="tutorialsid">Restaurant</label>
-        <select class="form-control" name="tutorialsid" id="tutorialsid" placeholder="Description">
-            <option th:each="restaurant: ${restaurants}" th:value="${restaurant.id}" th:text="${restaurant.title}"></option>
+        <label for=".restaurantsid">Restaurant</label>
+        <select class="form-control" name="restaurantsid" id="restaurantsid" placeholder="Description">
+            <option th:each="restaurant: ${restaurants}" th:value="${restaurant.id}" th:text="${restaurant.name}"></option>
         </select>
     </div>
     
-      <input type="submit" class="btn btn-primary" value="Add Restaurant">   
+      <input type="submit" class="btn btn-primary" value="Add Menu">   
   </form>
 </body>
 </html>

@@ -21,12 +21,12 @@
         <td th:text="${order.orderid}" />
         <td th:text="${order.customer}" />
         <td th:text="${order.menu}" />
-        <td><a class="btn btn-info" th:href="@{'/api/orders/' + ${order.id} + '/edit'}">Show/add menus</a></td>
-        <td><form th:name="${order.id}" th:action="@{'/api/order/del/' + ${order.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
+        <td><a class="btn btn-info" th:href="@{'/paracasa/orders/' + ${order.id} + '/edit'}">Show/add menus</a></td>
+        <td><form th:name="${order.id}" th:action="@{'/paracasa/order/del/' + ${order.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
     </tr>
     
 </table>
-<a th:href="@{'/api/orders/add'}"><input type="button" class="btn btn-primary" value="Add Order" /></a>
+<a th:href="@{'/paracasa/orders/add'}"><input type="button" class="btn btn-primary" value="Add Order" /></a>
 </div>
 </body>
 </html>

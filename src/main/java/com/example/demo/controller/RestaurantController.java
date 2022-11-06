@@ -25,45 +25,45 @@ import com.example.demo.repository.RestaurantRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/paracasa")
 public class RestaurantController {
 
   @Autowired
-  RestaurantRepository tutorialRepository;
+  RestaurantRepository restaurantRepository;
 
   @GetMapping("/restaurants")
-  public String getAllTutorials(@RequestParam(required = false) String title, Model model) {
+  public String getAllRestaurants(@RequestParam(required = false) String title, Model model) {
     try {
       List<Restaurant> restaurants = new ArrayList<Restaurant>();
 
       if (title == null)
-        tutorialRepository.findAll().forEach(restaurants::add);
+        restaurantRepository.findAll().forEach(restaurants::add);
       else
-        tutorialRepository.findByTitleContaining(title).forEach(restaurants::add);
+        restaurantRepository.findByNameContaining(title).forEach(restaurants::add);
 
       if (restaurants.isEmpty()) {
-        return "greeting";
+        return "restaurants";
       }
       model.addAttribute("restaurants", restaurants);
       return "restaurants";
     } catch (Exception e) {
-      return "greeting";
+      return "error";
     }
   }
 
   @GetMapping("/restaurants/{id}")
-  public ResponseEntity<Restaurant> getTutorialById(@PathVariable("id") long id) {
-    Optional<Restaurant> tutorialData = tutorialRepository.findById(id);
+  public ResponseEntity<Restaurant> getRestaurantById(@PathVariable("id") long id) {
+    Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
 
-    if (tutorialData.isPresent()) {
-      return new ResponseEntity<>(tutorialData.get(), HttpStatus.OK);
+    if (restaurantData.isPresent()) {
+      return new ResponseEntity<>(restaurantData.get(), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
   @GetMapping("/restaurants/{id}/edit")
   public String getRestaurantById(@PathVariable("id") long id, Model model) {
-    Optional<Restaurant> restaurantData = tutorialRepository.findById(id);
+    Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
 
     if (restaurantData.isPresent()) {
       model.addAttribute("restaurant", restaurantData.get());
@@ -79,7 +79,7 @@ public class RestaurantController {
   @PostMapping("/restaurants")
   public String createRestaurant(@RequestParam String title, @RequestParam String description) {
     try {
-      tutorialRepository.save(new Restaurant(title, description, false));
+      restaurantRepository.save(new Restaurant(title, description, false));
       return "creado";
     } catch (Exception e) {
       return "error";
@@ -87,14 +87,14 @@ public class RestaurantController {
   }
 
   @PutMapping("/restaurants/{id}")
-  public String updateTutorial(@PathVariable("id") long id, @RequestParam String title, @RequestParam String description) {
-    Optional<Restaurant> tutorialData = tutorialRepository.findById(id);
+  public String updateRestaurant(@PathVariable("id") long id, @RequestParam String title, @RequestParam String description) {
+    Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
 
-    if (tutorialData.isPresent()) {
-      Restaurant _tutorial = tutorialData.get();
-      _tutorial.setTitle(title);
-      _tutorial.setDescription(description);
-      tutorialRepository.save(_tutorial);
+    if (restaurantData.isPresent()) {
+      Restaurant _restaurant = restaurantData.get();
+      _restaurant.setName(title);
+      _restaurant.setDescription(description);
+      restaurantRepository.save(_restaurant);
       return "modificado";
     } else {
       return "id"+id;
@@ -102,9 +102,9 @@ public class RestaurantController {
   }
 
   @DeleteMapping("/restaurants/del/{id}")
-  public String deleteTutorial(@PathVariable("id") long id) {
+  public String deleteRestaurant(@PathVariable("id") long id) {
     try {
-      tutorialRepository.deleteById(id);
+      restaurantRepository.deleteById(id);
       return "borrado";
     } catch (Exception e) {
       return "error";
@@ -112,9 +112,9 @@ public class RestaurantController {
   }
 
   @DeleteMapping("/restaurants")
-  public ResponseEntity<HttpStatus> deleteAllTutorials() {
+  public ResponseEntity<HttpStatus> deleteAllRestaurants() {
     try {
-      tutorialRepository.deleteAll();
+      restaurantRepository.deleteAll();
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -122,18 +122,6 @@ public class RestaurantController {
 
   }
 
-  @GetMapping("/restaurants/published")
-  public ResponseEntity<List<Restaurant>> findByPublished() {
-    try {
-      List<Restaurant> restaurants = tutorialRepository.findByPublished(true);
-
-      if (restaurants.isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-      }
-      return new ResponseEntity<>(restaurants, HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+  
 
 }

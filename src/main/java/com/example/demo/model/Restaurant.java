@@ -7,42 +7,39 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tutorials")
+@Table(name = "restaurants")
 public class Restaurant implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@Column(name = "title")
-	private String title;
+	@Column(name = "name")
+	private String name;
 
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "published")
-	private boolean published;
 
 	public Restaurant() {
 
 	}
 
-	public Restaurant(String title, String description, boolean published) {
-		this.title = title;
+	public Restaurant(String name, String description, boolean published) {
+		this.name = name;
 		this.description = description;
-		this.published = published;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -53,16 +50,10 @@ public class Restaurant implements Serializable {
 		this.description = description;
 	}
 
-	public boolean isPublished() {
-		return published;
-	}
 
-	public void setPublished(boolean isPublished) {
-		this.published = isPublished;
-	}
 
 	@Override
 	public String toString() {
-		return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+		return "Tutorial [id=" + id + ", name=" + name + ", desc=" + description + "]";
 	}
 }

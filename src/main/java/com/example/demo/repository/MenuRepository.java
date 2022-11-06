@@ -9,9 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.Menu;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-  List<Menu> findByPublished(boolean published);
-  List<Menu> findByTitleContaining(String title);
+  List<Menu> findByNameContaining(String name);
   List<Menu> findByRestaurantId(Long postId);
-  @Transactional
   void deleteByRestaurantId(long restuarantlId);
 }

@@ -19,17 +19,17 @@
     </thead>
     <tr th:each="restaurant: ${restaurants}">
         <td th:text="${restaurant.id}" />
-        <td th:text="${restaurant.title}" />
+        <td th:text="${restaurant.name}" />
         <td th:text="${restaurant.description}" />
        
-        <td><a th:href="@{'/api/restaurants/' + ${restaurant.id} + '/menus'}"><input class="btn btn-info" value="Show Menus" /></a></td>
-        <td><a th:href="@{'/api/restaurants/' + ${restaurant.id} + '/edit'}"><input class="btn btn-warning" type="submit" value="edit" /></a></td>
-        <td><form th:name="${restaurant.id}" th:action="@{'/api/restaurants/del/' + ${restaurant.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
+        <td><a th:href="@{'/paracasa/restaurants/' + ${restaurant.id} + '/menus'}"><input class="btn btn-info" value="Show Menus" /></a></td>
+        <td><a th:href="@{'/paracasa/restaurants/' + ${restaurant.id} + '/edit'}"><input class="btn btn-warning" type="submit" value="edit" /></a></td>
+        <td><form th:name="${restaurant.id}" th:action="@{'/paracasa/restaurants/del/' + ${restaurant.id}}" th:method="delete"><input class="btn btn-danger" type="submit" value="delete" /></form></span></td>
 
     </tr>
     
 </table>
-<a th:href="@{'/api/restaurants/add'}"><input type="button" class="btn btn-primary" value="Add Restaurant" /></a>
+<a th:href="@{'/paracasa/restaurants/add'}"><input type="button" class="btn btn-primary" value="Add Restaurant" /></a>
 </div>
 </body>
 </html>
