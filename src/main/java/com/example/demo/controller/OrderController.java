@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.model.Menu;
-import com.example.demo.model.Customer_Menu;
+import com.example.demo.model.Order;
 import com.example.demo.model.Customer;
 import com.example.demo.repository.MenuRepository;
 import com.example.demo.repository.CustomerRepository;
-import com.example.demo.repository.Customer_MenuRepository;
+import com.example.demo.repository.OrderRepository;
 
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -28,15 +29,110 @@ import com.example.demo.repository.Customer_MenuRepository;
 
 
 
-public class Customer_MenuController {
+public class OrderController {
 
 
   @Autowired
-  Customer_MenuRepository customer_MenuRepository;
+  OrderRepository orderRepository;
   @Autowired
   MenuRepository menuRepository;
   @Autowired
   CustomerRepository customerRepository;
+  @GetMapping("/orderes")
+  public String getAllOrders( @RequestParam(required = false) Long customerid,Model model) {
+ 
+    List<Order> orders = new ArrayList<Order>();
+    if (customerid == null){
+      orderRepository.findAll().forEach(orders::add);
+    }
+    else {
+      orderRepository.findAllByCustomer_id(customerid).forEach(orders::add);
+    }
+    if (orders.isEmpty()) {
+      return "orderes";
+    }
+    model.addAttribute("orders", orders);
+    return "orderes";
+}
+@GetMapping("/orderes/add")
+public String addOrder(Model model) {
+  List<Customer> customers = new ArrayList<Customer>();
+  customerRepository.findAll().forEach(customers::add);
+  model.addAttribute("customers", customers);
+    return "nuevo_orderes";
+}
+@PostMapping("/orderes")
+public String createOrder(@RequestParam long customerid) {
+  Optional<Customer> customer = customerRepository.findById(customerid);
+  if (customer.isPresent()) {
+    Order orderRequest = new Order(customer.get());
+    orderRepository.save(orderRequest);
+  }
+    return "creado";  
+  
+}
+@PostMapping("/orderinmenu")
+public String addMenuOrder(@RequestParam long id, @RequestParam long menuid,Model model) {
+  Optional<Order> order = orderRepository.findById(id);
+  Optional<Menu> menu = menuRepository.findById(menuid);
+  if (order.isPresent() & menu.isPresent()) {
+    Order orderRequest=order.get();
+    Menu menuRequest=menu.get();
+    orderRequest.addMenu(menuRequest);
+    orderRepository.save(orderRequest);
+    
+  return "creado"; 
+  }
+  else{
+    return "error";
+  }
+}
+@GetMapping("/orderes/{id}/edit")
+  public String getCustomer_MenuById(@PathVariable("id") long id, Model model) {
+    Optional<Order> orderData = orderRepository.findById(id);
+
+    if (orderData.isPresent()) {
+      model.addAttribute("order", orderData.get());
+      List<Customer> customer = customerRepository.findAll();
+      List<Menu> menu = menuRepository.findAll();
+      Order order = orderData.get();
+      List<Menu> menusinorder = menuRepository.findMenusByorders(order);
+      model.addAttribute("customers", customer);
+      model.addAttribute("menus", menu);
+      model.addAttribute("menusinorder", menusinorder);
+      return "modificar_orderes";
+    } else {
+      return "noencontrado";
+    }
+  }
+  @DeleteMapping("/orderes/del/{id}")
+  public String deleteOrder(@PathVariable("id") long id) {
+    try {
+      orderRepository.deleteById(id);
+      return "borrado";
+    } catch (Exception e) {
+      return "error";
+    }
+  }
+  @DeleteMapping("/menuinorderes/del/{id}")
+  public String deleteMenuinOrder(@PathVariable("id") long menuid,@RequestParam long id) {
+    try {
+      Optional<Menu> menu = menuRepository.findById(menuid);
+      Optional<Order> order =orderRepository.findById(id);
+     if (order.isPresent() & menu.isPresent()) {
+      Order orderRequest =order.get();
+      Menu menuRequest=menu.get();
+    orderRequest.removeMenu(menuRequest);
+    orderRepository.save(orderRequest);
+      return "borrado";}
+      else{
+        return "error"; 
+      }
+    } catch (Exception e) {
+      return "error";
+    }
+  }
+  /*
   @GetMapping("/orders")
   public String getAllOrders( @RequestParam(required = false) Long customerid,Model model) {
  
@@ -115,4 +211,5 @@ public class Customer_MenuController {
       return "error";
     }
   }
+   */
 }

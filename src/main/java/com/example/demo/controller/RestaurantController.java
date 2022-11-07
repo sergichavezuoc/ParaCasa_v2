@@ -87,12 +87,12 @@ public class RestaurantController {
   }
 
   @PutMapping("/restaurants/{id}")
-  public String updateRestaurant(@PathVariable("id") long id, @RequestParam String title, @RequestParam String description) {
+  public String updateRestaurant(@PathVariable("id") long id, @RequestParam String name, @RequestParam String description) {
     Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
 
     if (restaurantData.isPresent()) {
       Restaurant _restaurant = restaurantData.get();
-      _restaurant.setName(title);
+      _restaurant.setName(name);
       _restaurant.setDescription(description);
       restaurantRepository.save(_restaurant);
       return "modificado";

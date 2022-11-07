@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -25,8 +27,14 @@ public class Menu implements Serializable {
 
 	
 
-	@Column(name = "published")
-	private boolean published;
+
+	@ManyToMany(fetch = FetchType.LAZY,
+	cascade = {
+		CascadeType.PERSIST,
+		CascadeType.MERGE
+	},mappedBy = "menus")
+@JsonIgnore
+private Set<Order> orders = new HashSet<>();
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "tutorials_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -66,7 +74,12 @@ public class Menu implements Serializable {
 		this.description = description;
 	}
 
-
+	public void setTOrders(Set<Order> orders) {
+		this.orders = orders;
+	  } 
+	public Set<Order> getOrders() {
+		return orders;
+	  }
 	@Override
 	public String toString() {
 		return "Menu [id=" + id + ", name=" + name + ", desc=" + description + ", restaurant=" + restaurant.getName() + "]";
